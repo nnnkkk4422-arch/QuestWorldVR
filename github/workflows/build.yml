@@ -1,0 +1,40 @@
+
+name: Build QuestWorld VR APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v4
+
+      - name: Zainstaluj Javę
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Zainstaluj Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Zbuduj APK
+        run: |
+          mkdir -p app/src/main/assets
+          echo "QuestWorld VR — pierwszy prototyp" > app/src/main/assets/info.txt
+          echo "To tylko test konfiguracji. Kod właściwej aplikacji Android trzeba dodać osobno."
+          echo "SDK gotowe do konfiguracji."
+
+      - name: Zapisz wynik testu
+        uses: actions/upload-artifact@v4
+        with:
+          name: questworldvr-test
+          path: app/src/main/assets/info.txt
+          
